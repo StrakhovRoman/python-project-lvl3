@@ -15,7 +15,7 @@ package-install:
 
 
 lint:
-	poetry run flake8 gendiff
+	poetry run flake8 page-loader
 
 
 test:
