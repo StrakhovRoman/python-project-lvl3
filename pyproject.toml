@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = ""
+authors = ["Roman Strakhov <rvstrakhov@gmail.com>"]
+packages = [
+    {include = "page_loader"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.25.1"
+requests-mock = "^1.8.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.9.0"
+wemake-python-styleguide = "^0.15.2"
+pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+page-loader = "page_loader.scripts.main:main"
+
