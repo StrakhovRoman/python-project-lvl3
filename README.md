@@ -3,7 +3,7 @@
 ## CLI utility for downloading pages from Internet ##
 
 ***
-This utility saves pages locally making it possible to open the page without the Internet.
+This utility saves pages locally and making it possible to open the page without Internet.
 ***
 
 ***
