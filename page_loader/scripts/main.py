@@ -4,7 +4,7 @@
 
 
 from page_loader.cli_argparser import get_parser
-from page_loader.page_loader import download
+from page_loader.loader import download
 
 
 def main():
