@@ -1,6 +1,6 @@
 # Page loader #
 
-## CLI utility for downloading pages from Internet ##
+## The utility downloads web pages, files, and images from the web using the CLI ##
 
 ***
 This utility saves pages locally and making it possible to open the page without Internet.
