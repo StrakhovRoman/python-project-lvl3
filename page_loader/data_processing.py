@@ -7,21 +7,22 @@ from bs4 import BeautifulSoup
 from progress.bar import Bar
 
 from page_loader import naming, url_processing
-from page_loader.logger_config import logger_config
+from page_loader.logger_config import configuring_dict
 
-logging.config.dictConfig(logger_config)
+logging.config.dictConfig(configuring_dict)
 logger = logging.getLogger('app_logger')
 
 resources_tags = {'link', 'script', 'img'}
 required_attributes = {'src', 'href'}
 
 
-def change_local_links(  # noqa: WPS210, WPS231
+def change_local_links(  # noqa: WPS210, WPS213, WPS231
     page_url,
     soup,
     path_to_resource_dir,
 ):
-    logger.info('starts loop in tags')
+    logger.info('start link search loop...')
+
     tags = soup.find_all(resources_tags)
     for tag in tags:
         attr_and_value = get_link(tag.attrs, required_attributes)
@@ -31,7 +32,7 @@ def change_local_links(  # noqa: WPS210, WPS231
 
                 logger.debug(f'resource tag: {tag}')
                 logger.debug(
-                    f'get required attribute {attr} and its value: {link}',
+                    f'required attribute {attr} and its value: {link}',
                 )
 
                 if link.startswith('data:'):
@@ -41,39 +42,39 @@ def change_local_links(  # noqa: WPS210, WPS231
                     link,
                 )
 
-                logger.debug(f'done resource url: {resource_url}')
+                logger.debug(f'resource URL done: {resource_url}')
 
                 resource_file_name = naming.get_file_name(
                     page_url,
                     resource_url,
                 )
 
-                logger.debug(f'done resource file name: {resource_file_name}')
+                logger.debug(f'resource file name done: {resource_file_name}')
 
                 resource_path = make_path(
                     path_to_resource_dir,
                     resource_file_name,
                 )
 
-                logger.debug(f'done resource path: {resource_path}')
+                logger.debug(f'resource path done: {resource_path}')
 
                 resource_content = url_processing.get_response(
                     resource_url,
                     content_type='content',
                 )
 
-                logger.debug(f'done resource content: {resource_file_name}')
+                logger.debug(f'resource content done: {resource_file_name}')
 
                 save_content(
                     resource_path, resource_file_name, resource_content,
                 )
 
-                logger.debug('saving resource in file')
+                logger.debug('saving resource in file done')
 
                 tag[attr] = make_path(path_to_resource_dir, resource_file_name)
 
                 logger.debug(
-                    f'resource tag: {tag}, and new local links: {attr}',
+                    f'local link done: {tag[attr]}',
                 )
     return soup.prettify(formatter='html5')
 
