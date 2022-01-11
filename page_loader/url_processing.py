@@ -5,9 +5,9 @@ from urllib.parse import urlparse
 
 import requests
 
-from page_loader.logger_config import logger_config
+from page_loader.logger_config import configuring_dict
 
-logging.config.dictConfig(logger_config)
+logging.config.dictConfig(configuring_dict)
 logger = logging.getLogger('app_logger')
 
 CHUNK_SIZE = 128
