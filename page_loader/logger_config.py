@@ -1,33 +1,23 @@
 """logger configuration."""
 
-logger_config = {
+configuring_dict = {
     'version': 1,
     'disable_existing_loggers': False,
 
     'formatters': {
         'std_format': {
             'format':
-                '{asctime} - {levelname} - {module}: {funcName}: {lineno} - {message}',
-                'style': '{',
-        },
-        'console_format': {
-            'format':
-                '{message}',
+                '{levelname}|{asctime}|{module}|{funcName}:{lineno} {message}',
                 'style': '{',
         },
     },
 
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'level': 'DEBUG',
-            'formatter': 'console_format',
-        },
         'to_file': {
             'class': 'logging.FileHandler',
             'level': 'DEBUG',
             'formatter': 'std_format',
-            'filename': 'apploader.log',
+            'filename': 'loader.log',
             'mode': 'w',
         },
     },
