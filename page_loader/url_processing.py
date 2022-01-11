@@ -41,8 +41,7 @@ def get_response(url, content_type='text'):
 
 def get_chunk(response):
     try:
-        for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
-            yield chunk
+        yield from response.iter_content(chunk_size=CHUNK_SIZE)
 
     except requests.exceptions.RequestException as error:
         logger.exception(error)
