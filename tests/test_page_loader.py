@@ -57,9 +57,9 @@ def test_get_url_from_local_link(link, correct_value):
     ],
 )
 def test_save_content(img_url, compared_image):
-    with tempfile.TemporaryDirectory() as temporary_directory:
+    with tempfile.TemporaryDirectory() as tmp_dir:
         image = get_response(img_url, content_type='content')
-        path_to_image = os.path.join(temporary_directory, 'test.jpg')
+        path_to_image = os.path.join(tmp_dir, 'test.jpg')
         data_processing.save_content(path_to_image, 'test.jpg', image)
 
         assert os.path.isfile(path_to_image)
@@ -68,10 +68,10 @@ def test_save_content(img_url, compared_image):
 
 
 def test_simple_download():
-    with tempfile.TemporaryDirectory() as temporary_directory:
+    with tempfile.TemporaryDirectory() as tmp_dir:
         with requests_mock.Mocker() as mocker:
             mocker.get('http://test.com', text='test_page_data')
-            file_path = download('http://test.com', temporary_directory)
+            file_path = download('http://test.com', tmp_dir)
             with open(file_path, 'r') as file:  # noqa: WPS110
                 page = file.read()
                 assert page == 'test_page_data\n'
