@@ -4,6 +4,7 @@ import logging.config  # noqa: WPS301
 from urllib.parse import urlparse
 
 import requests
+from bs4 import BeautifulSoup
 
 from page_loader.logger_config import configuring_dict
 
@@ -37,6 +38,11 @@ def get_response(url, content_type='text'):
         return response.text
     if content_type == 'content':
         return get_chunk(response)
+
+
+def get_soup(page_url):
+    html = get_response(page_url)
+    return BeautifulSoup(html, 'html.parser')
 
 
 def get_chunk(response):

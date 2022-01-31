@@ -1,12 +1,10 @@
 """Data processing."""
 
 import logging.config  # noqa: WPS301
-import pathlib
 
-from bs4 import BeautifulSoup
 from progress.bar import Bar
 
-from page_loader import naming, url_processing
+from page_loader import naming, paths_constructing, url_processing
 from page_loader.logger_config import configuring_dict
 
 logging.config.dictConfig(configuring_dict)
@@ -51,7 +49,7 @@ def change_local_links(  # noqa: WPS210, WPS213, WPS231
 
                 logger.debug(f'resource file name done: {resource_file_name}')
 
-                resource_path = make_path(
+                resource_path = paths_constructing.make_path(
                     path_to_resource_dir,
                     resource_file_name,
                 )
@@ -71,17 +69,14 @@ def change_local_links(  # noqa: WPS210, WPS213, WPS231
 
                 logger.debug('saving resource in file done')
 
-                tag[attr] = make_path(path_to_resource_dir, resource_file_name)
+                tag[attr] = paths_constructing.make_path_to_soup_link(
+                    resource_path,
+                )
 
                 logger.debug(
                     f'local link done: {tag[attr]}',
                 )
-    return soup.prettify(formatter='html5')
-
-
-def get_soup(page_url):
-    html = url_processing.get_response(page_url)
-    return BeautifulSoup(html, 'html.parser')
+    return soup.prettify()
 
 
 def get_link(tag_attrs: dict, required_attrs: set):
@@ -114,28 +109,3 @@ def save_page(path_to_file, resource_content):
     except OSError as error:
         logger.exception(error)
         raise OSError()
-
-
-def make_dir(page_url: str, output_path: str) -> str:
-    path_to_directory = make_path(
-        output_path,
-        naming.get_directory_name(page_url),
-    )
-
-    try:
-        pathlib.Path(path_to_directory).mkdir(exist_ok=True)
-
-    except OSError as error:
-        logger.exception(error)
-        raise RuntimeError(
-            f"Unable to create directory '{path_to_directory}'",
-        ) from error
-    return path_to_directory
-
-
-def make_path(path: str, path_component: str) -> str:
-    if pathlib.Path(path).exists():
-        return pathlib.Path(f'{path}/{path_component}')
-    raise RuntimeError(
-        f"The path or folder '{path}' does not exist!",
-    )
