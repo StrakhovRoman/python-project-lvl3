@@ -1,6 +1,6 @@
 """Page loader."""
 
-import logging
+import logging.config  # noqa: WPS301
 
 # isort: off
 from page_loader import (
